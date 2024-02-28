@@ -1,0 +1,35 @@
+---
+
+#Perception YML
+
+- name: Set Up Perception Dev Ops
+  hosts: localhost
+  
+  tasks:
+  - name: Get CUDA keyring
+    become: true
+    command: wget https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2004/x86_64/cuda-keyring_1.1-1_all.deb -P /tmp/
+  - name: Configure dpkg with CUDA keyring
+    become: true
+    command: dpkg -i /tmp/cuda-keyring_1.1-1_all.deb
+  - name: Apt update
+    become: true
+    command: apt-get update
+  - name: Install CUDA drivers
+    become: true
+    command: apt-get -y install cuda-toolkit-12-3
+  - name: Get ZED SDK
+    become: true
+    command: wget https://download.stereolabs.com/zedsdk/4.0/cu121/ubuntu20 -P /tmp/
+  - name: Install ZED SDK Apt
+    become: true
+    apt:
+      name: zstd
+      state: present
+      update_cache: true
+  - name: CHMOD ZED SDK
+    become: true
+    command: chmod +x /tmp/ubuntu20
+  - name: Run ZED Installer
+    become: true
+    command: /tmp/ubuntu20 -- silent

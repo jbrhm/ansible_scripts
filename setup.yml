@@ -1,0 +1,28 @@
+---
+
+#playbook
+
+- name: General Environment Set Up
+  hosts: localhost
+  tasks:
+  - name: Install Zsh
+    apt:
+      name: zsh
+      state: present
+      update_cache: true
+    become: true
+
+  - name: Make Zsh default terminal
+    become: true
+    command: chsh --shell /usr/bin/zsh
+
+  - name: Oh-My-Zsh
+    git:
+      repo: https://github.com/ohmyzsh/ohmyzsh.git
+      dest: ~/.oh-my-zsh
+      version: master
+
+  - name: Insert Line At The End of File
+    lineinfile:
+      path: "~/.zshrc"
+      line: export PATH=$PATH:/usr/local/cuda/bin

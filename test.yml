@@ -1,0 +1,20 @@
+---
+
+#playbook
+
+- name: run tasks on all hosts
+  hosts: localhost
+  tasks:
+    - name: install baobab
+      apt:
+        name: baobab
+        state: present
+        update_cache: true
+      become: true
+    - name: remove baobab
+      apt:
+        name: baobab
+        state: absent
+        update_cache: true
+      become: true
+
